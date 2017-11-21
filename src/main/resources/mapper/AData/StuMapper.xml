@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="voidcl.SpringBoot.dao.AData.StuMapper">
+    <resultMap id="StuResult" type="voidcl.SpringBoot.entity.Student">
+        <result column="sid" jdbcType="VARCHAR" property="id"/>
+        <result column="sname" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <insert id="insertStu" parameterType="voidcl.SpringBoot.entity.Student">
+        INSERT INTO stu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                sid,
+            </if>
+            <if test="name != null">
+                sname,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id , jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name , jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectAllStu" resultMap="StuResult" flushCache="true" useCache="false">
+        SELECT *
+        FROM stu
+        where sid = 'suc'
+    </select>
+    <select id="selectFake" resultType="String" flushCache="true" useCache="false">
+        SELECT sid
+        FROM stu
+        ORDER BY sid
+    </select>
+    <select id="selectById" resultMap="StuResult" parameterType="java.lang.String">
+        SELECT sql_no_cache *
+        FROM stu
+        WHERE sid = #{id , jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateStuName" parameterType="java.lang.String">
+        UPDATE stu SET sname = #{name , jdbcType=VARCHAR} WHERE sid = 'error'
+    </update>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE stu SET sname = 'suc'
+        WHERE sid = #{id , jdbcType=VARCHAR}
+    </update>
+</mapper>
