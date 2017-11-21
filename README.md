@@ -190,6 +190,9 @@ query_cache_size=0
 	> This can occur when range locks are not acquired on performing a SELECT ... WHERE operation. The phantom reads anomaly is a special case of Non-repeatable reads when Transaction 1 repeats a ranged SELECT ... WHERE query and, between both operations, Transaction 2 creates (i.e. INSERT) new rows (in the target table) which fulfill that WHERE clause.
 	
 	幻读其实是不可重复读的一种特殊的例子（a special case of Non-repeatable reads）, 所以RR级别不会出现
+
+####事务总结
+	首先SpringBoot事务是基于数据库事务之上的，只不过提供了一些可自定的选项，比如隔离级别以及传播等级，解放了程序员需要亲自前往数据库设置的工作，转而在注解或者xml文件中配置变量，让人感觉更加亲切。其次，SpringBoot事务依靠AOP来实现，这点也是特别需要注意的地方，如果在方法内调用方法，必须要开启AOP增强，其实也就是spring让程序员使用它的一个类方法来调用自己类内部的方法，本质上还是一样的。最后，在工程中使用事务是非常有必要的，能有效增加数据库的安全性，让代码逻辑更加完善。
 	
 ###日志（logback）
 
@@ -410,3 +413,6 @@ public class IpConvert extends ClassicConverter {
 |queueSize|int|BlockingQueue的最大容量，默认情况下，大小为256|
 |discardingThreshold|int|默认情况下，当BlockingQueue还有20%容量，他将丢弃TRACE、DEBUG和INFO级别的event，只保留WARN和ERROR级别的event。为了保持所有的events，设置该值为0。|
 |includeCallerData|boolean|提取调用者数据的代价是相当昂贵的。为了提升性能，默认情况下，当event被加入到queue时，event关联的调用者数据不会被提取。默认情况下，只有"cheap"的数据，如线程名。|
+
+####日志总结
+SpringBoot采用的log为logback，作为log4j的加强版，添加了一些额外的功能来方便调试，有了logback的强大功能，可以延时输出log，自定义格式化输出内容等等，是非常强大的日志系统。
